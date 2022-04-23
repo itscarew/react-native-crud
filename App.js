@@ -1,11 +1,121 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  ScrollView,
+} from "react-native";
+
+import Task from "./components/Task";
 
 export default function App() {
+  const [task, setTask] = useState("");
+  const [taksList, setTaskList] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [taskIndex, setTaskIndex] = useState();
+
+  const handleChange = (value) => {
+    setTask(value);
+  };
+
+  const addTask = () => {
+    if (task) {
+      Keyboard.dismiss();
+      setTaskList([...taksList, task]);
+      setTask("");
+    }
+  };
+
+  const removeTask = (i) => {
+    let tempArr = [...taksList];
+    tempArr.splice(i, 1);
+    setTaskList(tempArr);
+  };
+
+  const getTaskText = (tasksText, index) => {
+    setIsEditing(true);
+    setTask(tasksText);
+    setTaskIndex(index);
+  };
+
+  const editATask = () => {
+    if (task) {
+      taksList[taskIndex] = task;
+      setIsEditing(false);
+      Keyboard.dismiss();
+      setTask("");
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <ScrollView style={styles.taskWrapper}>
+        <Text style={styles.sectionTitle}> Todays Mini Tweet </Text>
+        <View style={styles.items}>
+          <View>
+            {taksList.length < 1 ? (
+              <Text style={{ marginHorizontal: 10 }}>Mini tweet something</Text>
+            ) : (
+              <View>
+                {taksList.map((tasksText, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => getTaskText(tasksText, index)}
+                    >
+                      <Task
+                        task={tasksText}
+                        removeTask={() => removeTask(index)}
+                      />
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            )}
+          </View>
+        </View>
+      </ScrollView>
+
+      {isEditing ? (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.writeTaskWrapper}
+        >
+          <TextInput
+            style={styles.input}
+            placeholder="Edit this task"
+            value={task}
+            onChangeText={handleChange}
+          />
+          <TouchableOpacity onPress={editATask}>
+            <View style={styles.addTask}>
+              <Text style={styles.addText}>#</Text>
+            </View>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      ) : (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.writeTaskWrapper}
+        >
+          <TextInput
+            style={styles.input}
+            placeholder="Write a task"
+            value={task}
+            onChangeText={handleChange}
+          />
+          <TouchableOpacity onPress={addTask}>
+            <View style={styles.addTask}>
+              <Text style={styles.addText}>+</Text>
+            </View>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      )}
     </View>
   );
 }
@@ -13,8 +123,48 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#457B9D",
+  },
+  taskWrapper: {
+    paddingTop: 80,
+    paddingHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  items: {
+    marginTop: 30,
+  },
+  writeTaskWrapper: {
+    position: "absolute",
+    bottom: 60,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  input: {
+    backgroundColor: "#fff",
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderRadius: 60,
+    borderColor: "#F1FAEE",
+    borderWidth: 1,
+    width: 250,
+  },
+  addTask: {
+    width: 60,
+    height: 60,
+    backgroundColor: "#fff",
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#F1FAEE",
+    borderWidth: 1,
+  },
+  addText: {
+    fontSize: 24,
+    color: "#A8DADC",
   },
 });
