@@ -9,13 +9,15 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
+  FlatList,
+  Alert,
 } from "react-native";
 
 import Task from "./components/Task";
 
 export default function App() {
   const [task, setTask] = useState("");
-  const [taksList, setTaskList] = useState([]);
+  const [taskList, setTaskList] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [taskIndex, setTaskIndex] = useState();
 
@@ -26,13 +28,15 @@ export default function App() {
   const addTask = () => {
     if (task) {
       Keyboard.dismiss();
-      setTaskList([...taksList, task]);
+      setTaskList([...taskList, task]);
       setTask("");
+    } else {
+      Alert.alert("MiniTweet", "Mini tweet can't be empty");
     }
   };
 
   const removeTask = (i) => {
-    let tempArr = [...taksList];
+    let tempArr = [...taskList];
     tempArr.splice(i, 1);
     setTaskList(tempArr);
   };
@@ -45,10 +49,12 @@ export default function App() {
 
   const editATask = () => {
     if (task) {
-      taksList[taskIndex] = task;
+      taskList[taskIndex] = task;
       setIsEditing(false);
       Keyboard.dismiss();
       setTask("");
+    } else {
+      Alert.alert("MiniTweet", "Mini tweet can't be empty");
     }
   };
 
@@ -58,11 +64,11 @@ export default function App() {
         <Text style={styles.sectionTitle}> Todays Mini Tweet </Text>
         <View style={styles.items}>
           <View>
-            {taksList.length < 1 ? (
+            {taskList.length < 1 ? (
               <Text style={{ marginHorizontal: 10 }}>Mini tweet something</Text>
             ) : (
               <View>
-                {taksList.map((tasksText, index) => {
+                {taskList.map((tasksText, index) => {
                   return (
                     <TouchableOpacity
                       key={index}
@@ -87,13 +93,14 @@ export default function App() {
           style={styles.writeTaskWrapper}
         >
           <TextInput
+            multiline
             style={styles.input}
             placeholder="Edit this task"
             value={task}
             onChangeText={handleChange}
           />
           <TouchableOpacity onPress={editATask}>
-            <View style={styles.addTask}>
+            <View style={styles.editTask}>
               <Text style={styles.addText}>#</Text>
             </View>
           </TouchableOpacity>
@@ -104,6 +111,7 @@ export default function App() {
           style={styles.writeTaskWrapper}
         >
           <TextInput
+            multiline
             style={styles.input}
             placeholder="Write a task"
             value={task}
@@ -126,6 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#457B9D",
   },
   taskWrapper: {
+    flex: 1,
     paddingTop: 80,
     paddingHorizontal: 20,
   },
@@ -161,6 +170,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderColor: "#F1FAEE",
+    borderWidth: 1,
+  },
+  editTask: {
+    width: 60,
+    height: 60,
+    backgroundColor: "#1D3557",
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#1D3557",
     borderWidth: 1,
   },
   addText: {
