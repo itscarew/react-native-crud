@@ -4,6 +4,8 @@ import { globalStyles } from "../styles/global";
 import { Formik } from "formik";
 import { CustomButton } from "../components/Button";
 import { CustomTextInput } from "../components/TextInput";
+import { AlertMessage } from "../components/AlertMessage";
+import { forgotPasswordSchema } from "../schema/validationSchema";
 
 const ForgotPassword = ({ navigation }) => {
   return (
@@ -15,8 +17,10 @@ const ForgotPassword = ({ navigation }) => {
           initialValues={{
             email: "",
           }}
+          validationSchema={forgotPasswordSchema}
           onSubmit={(values) => {
             console.log(values);
+            navigation.navigate("Verification");
           }}
         >
           {(props) => {
@@ -25,8 +29,13 @@ const ForgotPassword = ({ navigation }) => {
                 <CustomTextInput
                   placeholder="email address"
                   value={props.values.email}
+                  name="email"
                   onChangeText={props.handleChange("email")}
                   style={{ marginVertical: 5 }}
+                />
+                <AlertMessage
+                  message={props.touched.email && props.errors["email"]}
+                  type="error"
                 />
                 <View style={{ marginVertical: 10 }}>
                   <Pressable onPress={props.handleSubmit}>

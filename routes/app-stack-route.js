@@ -6,6 +6,8 @@ import SignIn from "../screens/signin";
 import AppDrawerRoute from "./app-drawer-route";
 import { Image, View, Text, ImageBackground } from "react-native";
 import ForgotPassword from "../screens/forgotPassword";
+import Verification from "../screens/verification";
+import CreateNewPassword from "../screens/createNewPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,11 +31,11 @@ export const UnAuthStackRoute = () => {
       initialRouteName="Home"
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#f4511e",
+          backgroundColor: "#001219",
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
-          fontWeight: "bold",
+          fontFamily: "nunito-regular",
         },
         // headerBackground: (props) => <LogoTitle {...props} />,
       }}
@@ -62,6 +64,16 @@ export const UnAuthStackRoute = () => {
         name="ForgotPassword"
         component={ForgotPassword}
         options={{ title: "Forgot Password", headerShown: false }}
+      />
+      <Stack.Screen
+        name="Verification"
+        component={Verification}
+        options={{ title: "Verify Otp", headerShown: false }}
+      />
+      <Stack.Screen
+        name="NewPassword"
+        component={CreateNewPassword}
+        options={{ title: "New Password", headerShown: false }}
       />
       <Stack.Screen
         name="Dashboard"

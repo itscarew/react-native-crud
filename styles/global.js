@@ -12,16 +12,29 @@ export const globalStyles = StyleSheet.create({
   },
   paragraph: {
     fontFamily: "nunito-regular",
-    marginVertical: 3,
+    marginVertical: 5,
   },
 
   paragraphBold: {
     fontFamily: "nunito-bold",
-    marginVertical: 3,
+    marginVertical: 5,
   },
 
   paragraphSemiBold: {
     fontFamily: "nunito-semibold",
-    marginVertical: 3,
+    marginVertical: 5,
+  },
+
+  errorMessage: {
+    fontFamily: "nunito-regular",
+    marginVertical: 2,
+    color: "#e9d8a6",
+    textTransform: "lowercase",
+  },
+
+  warningMessage: {
+    fontFamily: "nunito-regular",
+    marginVertical: 2,
+    textTransform: "lowercase",
   },
 });

@@ -10,11 +10,11 @@ export const AuthStackRoute = () => {
       initialRouteName="Home"
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#f4511e",
+          backgroundColor: "#001219",
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
-          fontWeight: "bold",
+          fontFamily: "nunito-regular",
         },
       }}
     >
@@ -25,8 +25,23 @@ export const AuthStackRoute = () => {
 
 const AppDrawerRoute = () => {
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Drawer Dashboard" component={Dashboard} />
+    <Drawer.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#001219",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontFamily: "nunito-regular",
+        },
+      }}
+    >
+      <Drawer.Screen
+        name="Drawer Dashboard"
+        component={Dashboard}
+        options={{ title: "Dashboard" }}
+      />
       <Drawer.Screen
         name="Drawer Terms and Condition"
         component={TermsCondition}

@@ -70,10 +70,8 @@ const Dashboard = ({ navigation }) => {
                 <Text style={{ marginHorizontal: 10 }}>
                   Mini tweet something
                 </Text>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("TermsCondition")}
-                >
-                  <Text>Read Terms and Condiition</Text>
+                <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
+                  <Text>Sign In</Text>
                 </TouchableOpacity>
               </View>
             ) : (

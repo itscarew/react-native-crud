@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useState } from "react";
 import { Layout } from "../components/Layout";
 import { globalStyles } from "../styles/global";
 import { Formik } from "formik";
 import { CustomButton } from "../components/Button";
 import { CustomTextInput } from "../components/TextInput";
+import { signUpSchema } from "../schema/validationSchema";
+import { AlertMessage } from "../components/AlertMessage";
 
 const SignUp = ({ navigation }) => {
   return (
@@ -18,6 +21,7 @@ const SignUp = ({ navigation }) => {
             email: "",
             password: "",
           }}
+          validationSchema={signUpSchema}
           onSubmit={(values) => {
             console.log(values);
           }}
@@ -31,11 +35,19 @@ const SignUp = ({ navigation }) => {
                   onChangeText={props.handleChange("fullName")}
                   style={{ marginVertical: 5 }}
                 />
+                <AlertMessage
+                  message={props.touched.fullName && props.errors["fullName"]}
+                  type="error"
+                />
                 <CustomTextInput
                   placeholder="choose a username"
                   value={props.values.userName}
                   onChangeText={props.handleChange("userName")}
                   style={{ marginVertical: 5 }}
+                />
+                <AlertMessage
+                  message={props.touched.userName && props.errors["userName"]}
+                  type="error"
                 />
                 <CustomTextInput
                   placeholder="email address"
@@ -43,12 +55,20 @@ const SignUp = ({ navigation }) => {
                   onChangeText={props.handleChange("email")}
                   style={{ marginVertical: 5 }}
                 />
+                <AlertMessage
+                  message={props.touched.email && props.errors["email"]}
+                  type="error"
+                />
                 <CustomTextInput
                   placeholder="choose a password"
                   secureTextEntry={true}
                   value={props.values.password}
                   onChangeText={props.handleChange("password")}
                   style={{ marginVertical: 5 }}
+                />
+                <AlertMessage
+                  message={props.touched.password && props.errors["password"]}
+                  type="error"
                 />
                 <View style={{ marginVertical: 10 }}>
                   <Pressable>

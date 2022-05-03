@@ -4,44 +4,33 @@ import { globalStyles } from "../styles/global";
 import { Formik } from "formik";
 import { CustomButton } from "../components/Button";
 import { CustomTextInput } from "../components/TextInput";
-import { signInSchema } from "../schema/validationSchema";
+import { newPasswordSchema } from "../schema/validationSchema";
 import { AlertMessage } from "../components/AlertMessage";
 
-const SignIn = ({ navigation }) => {
+const CreateNewPassword = ({ navigation }) => {
   return (
     <Layout>
       <View style={styles.container1}>
         <Text style={styles.titleText}>Mindix</Text>
+
         <Formik
-          initialValues={{ identifier: "", password: "" }}
-          validationSchema={signInSchema}
+          initialValues={{
+            password: "",
+            confirmPassword: "",
+          }}
+          validationSchema={newPasswordSchema}
           onSubmit={(values) => {
             console.log(values);
-            navigation.navigate("Dashboard");
+            navigation.navigate("SignIn");
           }}
         >
           {(props) => {
-            console.log(props.errors);
             return (
               <View>
-                <CustomTextInput
-                  placeholder="email or username"
-                  value={props.values.identifier}
-                  name="identifier"
-                  onChangeText={props.handleChange("identifier")}
-                  style={{ marginVertical: 5 }}
-                />
-                <AlertMessage
-                  message={
-                    props.touched.identifier && props.errors["identifier"]
-                  }
-                  type="error"
-                />
                 <CustomTextInput
                   placeholder="password"
                   secureTextEntry={true}
                   value={props.values.password}
-                  name="password"
                   onChangeText={props.handleChange("password")}
                   style={{ marginVertical: 5 }}
                 />
@@ -49,20 +38,23 @@ const SignIn = ({ navigation }) => {
                   message={props.touched.password && props.errors["password"]}
                   type="error"
                 />
+                <CustomTextInput
+                  placeholder="confirm password"
+                  secureTextEntry={true}
+                  value={props.values.confirmPassword}
+                  onChangeText={props.handleChange("confirmPassword")}
+                  style={{ marginVertical: 5 }}
+                />
+                <AlertMessage
+                  message={
+                    props.touched.confirmPassword &&
+                    props.errors["confirmPassword"]
+                  }
+                  type="error"
+                />
                 <View style={{ marginVertical: 10 }}>
-                  <Pressable>
-                    <Text
-                      style={[
-                        globalStyles.paragraphSemiBold,
-                        { textAlign: "right" },
-                      ]}
-                      onPress={() => navigation.navigate("ForgotPassword")}
-                    >
-                      Forgotten password ?
-                    </Text>
-                  </Pressable>
                   <CustomButton
-                    text="Sign In"
+                    text="New Password"
                     onPress={props.handleSubmit}
                     style={{ marginTop: 5 }}
                   />
@@ -71,18 +63,6 @@ const SignIn = ({ navigation }) => {
             );
           }}
         </Formik>
-      </View>
-      <View style={styles.container2}>
-        <Text style={globalStyles.paragraph}>
-          Don't have a Mindix account?
-          <Text
-            style={globalStyles.paragraphBold}
-            onPress={() => navigation.navigate("SignUp")}
-          >
-            {" "}
-            Sign Up
-          </Text>
-        </Text>
       </View>
     </Layout>
   );
@@ -110,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignIn;
+export default CreateNewPassword;
